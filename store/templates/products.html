@@ -1,0 +1,50 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<body>
+    <nav class="px-6 py-6 flex justify-between items-center border-b border-gray-200">
+        <a href="" class="font-semibold text-xl">UrbanMart</a>
+        <div class="space-x-6">
+          <a href="" class="text-lg font-semibold hover:text-gray-500">About</a>
+          <a href="" class="text-lg font-semibold hover:text-gray-500">Profile</a>
+    
+          <a href="{% url 'logout' %}" class="px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Log out</a>
+        </div>
+       </nav>
+       <div class="px-6 py-6">
+        <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+            <h2 class="mb-12 text-2xl text-center">Explore items</h2>
+    
+            <div class="grid grid-cols-3 gap-3">
+                {% for product in products %}
+                    <div class="flex flex-col h-full bg-white rounded-xl overflow-hidden">
+                        <a href="" class="flex-1">
+                            <div class="h-40 overflow-hidden">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" class="w-full h-full object-contain rounded-t-xl" alt="{{ product.title }}"> 
+                                {% else %}
+                                    <img src="{% static 'images/book2.jpg' %}" class="w-full h-full object-contain rounded-t-xl" alt="{{ product.title }}">
+                                {% endif %}
+                            </div>
+                            <div class="p-6">
+                                <h2 class="text-2xl">{{ product.title }}</h2>  
+                                <p class="text-gray-500">${{ product.price }}</p> 
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            
+        </div>
+       </div>
+</body>
+</html>
+
