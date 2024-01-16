@@ -1,0 +1,40 @@
+{% extends 'products.html' %}
+
+{% block content %}
+<div class="w-1/2 my-6 mx-auto p-6 bg-gray-300 rounded-xl">
+    <div class="p-7">
+        <h1 class="mb-6 text-3xl">View Profile</h1>
+    </div>
+
+    
+
+    <div class="mb-6">
+        {% if user_profile.profile_picture %}
+            <div class="w-40 h-40 overflow-hidden rounded-full">
+                <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" class="w-full h-full object-cover">
+            </div>
+        {% endif %}
+    </div>
+
+    
+    <div class="mb-3 text-3xl flex gap-2" >
+        {{ user_profile.first_name }} {{ user_profile.last_name }}
+    </div>
+
+   
+    <div class="mb-3">
+        {{ user_profile.email }}
+    </div>
+
+    <div class="mb-3">
+        {{ user_profile.phone_number }}
+    </div>
+
+   
+
+    <div class="p-7 flex">
+        <a href="{% url 'profile' %}" class="py-4 px-8 text-lg bg-teal-500 text-white hover:bg-teal-700 rounded-xl">Update Profile</a>
+    </div>
+</div>
+
+{% endblock %}

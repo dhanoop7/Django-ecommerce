@@ -1,50 +1,145 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Document</title>
-</head>
-<body>
-    <nav class="px-6 py-6 flex justify-between items-center border-b border-gray-200">
-        <a href="" class="font-semibold text-xl">UrbanMart</a>
-        <div class="space-x-6">
-          <a href="" class="text-lg font-semibold hover:text-gray-500">About</a>
-          <a href="" class="text-lg font-semibold hover:text-gray-500">Profile</a>
-    
-          <a href="{% url 'logout' %}" class="px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Log out</a>
-        </div>
-       </nav>
-       <div class="px-6 py-6">
-        <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
-            <h2 class="mb-12 text-2xl text-center">Explore items</h2>
-    
-            <div class="grid grid-cols-3 gap-3">
-                {% for product in products %}
-                    <div class="flex flex-col h-full bg-white rounded-xl overflow-hidden">
-                        <a href="" class="flex-1">
-                            <div class="h-40 overflow-hidden">
-                                {% if product.image %}
-                                    <img src="{{ product.image.url }}" class="w-full h-full object-contain rounded-t-xl" alt="{{ product.title }}"> 
-                                {% else %}
-                                    <img src="{% static 'images/book2.jpg' %}" class="w-full h-full object-contain rounded-t-xl" alt="{{ product.title }}">
-                                {% endif %}
-                            </div>
-                            <div class="p-6">
-                                <h2 class="text-2xl">{{ product.title }}</h2>  
-                                <p class="text-gray-500">${{ product.price }}</p> 
-                            </div>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-            
-            
-        </div>
-       </div>
-</body>
-</html>
+  </head>
+  <body>
+    <nav
+      class="px-6 py-6 flex justify-between items-center border-b border-gray-200"
+    >
+      <a href="" class="font-semibold text-xl">UrbanMart</a>
+      <div class="space-x-6">
+       {% if user.is_superuser %}
+        <a
+          href="{% url 'addcategory' %}"
+          class="text-lg font-semibold hover:text-gray-500"
+          >Add category</a
+        >
+        <a
+          href="{% url 'additem' %}"
+          class="text-lg font-semibold hover:text-gray-500"
+          >Add Product</a
+        >
+        {% endif %}
+        <a
+          href="{% url 'products' %}"
+          class="text-lg font-semibold hover:text-gray-500"
+          >Products</a
+        >
+        <a
+          href="{% url 'profile' %}"
+          class="text-lg font-semibold hover:text-gray-500"
+          >Update Profile</a
+        >
+        <a
+          href="{% url 'viewprofile' %}"
+          class="text-lg font-semibold hover:text-gray-500"
+          >View Profile</a
+        >
+        <a
+          href="{% url 'logout' %}"
+          class="px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700"
+          >Log out</a
+        >
+      </div>
+    </nav>
 
+    <div class="px-6 py-6">
+      {% block content %}
+      <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h2 class="mb-12 text-2xl text-center">Explore items</h2>
+
+        <div class="grid grid-cols-3 gap-3">
+          {% for product in products %}
+          <div class="flex flex-col h-full bg-white rounded-xl overflow-hidden">
+            <a href="{% url 'details' product.id %}" class="flex-1">
+              <div class="h-40 overflow-hidden">
+                {% if product.image %}
+                <img
+                  src="{{ product.image.url }}"
+                  class="w-full h-full object-contain rounded-t-xl"
+                  alt="{{ product.title }}"
+                />
+                {% else %}
+                <img
+                  src="{% static 'images/book2.jpg' %}"
+                  class="w-full h-full object-contain rounded-t-xl"
+                  alt="{{ product.title }}"
+                />
+                {% endif %}
+              </div>
+              <div class="p-6">
+                <h2 class="text-2xl">{{ product.title }}</h2>
+                <p class="text-gray-500">${{ product.price }}</p>
+              </div>
+              {% if user.is_superuser %}
+              <div class="flex gap-3">
+              <form
+                method="post"
+                action="{% url 'deleteproduct' product.id %}"
+                class="delete-form"
+              >
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="px-4 text-lg bg-teal-500 text-white hover:bg-teal-700 rounded-xl"
+                >
+                  Delete
+                </button>
+
+                
+              </form>
+        </div>
+              {% endif %}
+            </a>
+           
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endblock %}
+    </div>
+    <footer class="flex justify-between px-6 py-6 bg-gray-800 mt-12">
+      <div class="w-1/3 pr-10 pt-3">
+        <h3 class="mb-5 font-semibold text-gray-400">About</h3>
+        <p class=".text-base text-gray-500 whitespace-pre-line">
+          Welcome to UrbanMart, your go-to destination for a seamless and
+          enjoyable online shopping experience. Established with a passion for
+          providing high-quality products and exceptional service, we are
+          dedicated to making your shopping journey memorable and convenient.
+        </p>
+      </div>
+      <div class="w-1/3">
+        <h3 class="mb-3 text-gray-400 font-semibold">Menu</h3>
+        <ul class="space-y-2">
+          <li>
+            <a href="" class="text-lg text-teal-500 hover:text-teal-700"
+              >About</a
+            >
+          </li>
+          <li>
+            <a
+              href="{% url 'contact' %}"
+              class="text-lg text-teal-500 hover:text-teal-700"
+              >Contact</a
+            >
+          </li>
+          <li>
+            <a href="" class="text-lg text-teal-500 hover:text-teal-700"
+              >Privacy and Policy</a
+            >
+          </li>
+          <li>
+            <a href="" class="text-lg text-teal-500 hover:text-teal-700"
+              >Terms and Conditions</a
+            >
+          </li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

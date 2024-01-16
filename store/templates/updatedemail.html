@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Document</title>
+</head>
+<body>
+  <nav
+  class="px-6 py-6 flex justify-between items-center border-b border-gray-200"
+>
+  <a href="" class="font-semibold text-xl">UrbanMart</a>
+  <div class="space-x-6">
+   {% if user.is_superuser %}
+    <a
+      href="{% url 'addcategory' %}"
+      class="text-lg font-semibold hover:text-gray-500"
+      >Add category</a
+    >
+    <a
+      href="{% url 'additem' %}"
+      class="text-lg font-semibold hover:text-gray-500"
+      >Add Product</a
+    >
+    {% endif %}
+    <a
+      href="{% url 'products' %}"
+      class="text-lg font-semibold hover:text-gray-500"
+      >Products</a
+    >
+    <a
+      href="{% url 'profile' %}"
+      class="text-lg font-semibold hover:text-gray-500"
+      >Update Profile</a
+    >
+    <a
+      href="{% url 'viewprofile' %}"
+      class="text-lg font-semibold hover:text-gray-500"
+      >View Profile</a
+    >
+    <a
+      href="{% url 'logout' %}"
+      class="px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700"
+      >Log out</a
+    >
+  </div>
+</nav>
+
+<div class="px-6 py-6">
+  <div class="w-1/2 my-6 mx-auto p-6 bg-gray-300 rounded-xl">
+    <div class="text-center  border border-green-400 text-black rounded-md">
+      <h1 class="text-4xl">Profile Updated</h1>
+      <p>Your profile has been successfully updated. An email notification has been sent to you.</p>
+      
+      <p>Thank you for using our service!</p>
+    
+    </div>
+  </div>
+</div>
+</body>
+</html>

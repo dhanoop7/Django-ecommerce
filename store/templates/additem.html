@@ -1,0 +1,58 @@
+{% extends 'products.html' %}
+{% block content %}
+
+<div class="w-1/2 my-6 mx-auto p-6 bg-gray-300 rounded-xl">
+    <div class="p-7">
+        <h1 class="mb-6 text-3xl">Add Product</h1>
+    </div>
+    {% if error_message %}
+        <p class="text-red-500">{{ error_message }}</p>
+    {% endif %}
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3 flex flex-col">
+            <label class="inline-block mb-2">
+                Product Title:
+            </label> 
+            <input class="ml-2 rounded-md w-72 p-2" type="text" id="product_title" name="title" required>
+        </div>
+
+        <div class="mb-3 flex flex-col">
+            <label class="inline-block mb-2">
+                Product Description:
+            </label>
+            <textarea class="ml-2 rounded-md w-72 p-2" id="product_description" name="description" required></textarea>
+        </div>
+
+        <div class="mb-3 flex flex-col">
+            <label class="inline-block mb-2">
+                Product Price:
+            </label>
+            <input class="ml-2 rounded-md w-72 p-2" type="text" id="product_price" name="price" required>
+        </div>
+
+        <div class="mb-3 flex flex-col">
+            <label class="inline-block mb-2">
+                Product Category:
+            </label>
+            <select class="ml-2 rounded-md w-72 p-2" id="product_category" name="categories" required>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3 flex flex-col">
+            <label class="inline-block mb-2">
+                Product Image:
+            </label>
+            <input class="ml-2" type="file" id="product_image" name="image" required>
+        </div>
+
+        <div class="p-7 flex">
+            <button class="py-4 px-8 text-lg bg-teal-500 text-white hover:bg-teal-700 rounded-xl" type="submit">Add Product</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
